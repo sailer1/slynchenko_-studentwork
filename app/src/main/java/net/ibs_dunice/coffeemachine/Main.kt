@@ -17,23 +17,32 @@ public class coffemachin() {
                     "\nДля продолжения нажмите любую клавишу"
         )
         readLine();
-        println(
-            "Статус кофемашины выключен" +
-                    "\nДля включения нажмите 1" +
-                    "\nДля выключения нажмите 2"
-        )
-        var d = readLine();
-        when (d) {
-            "1" -> {
-                println("Кофемашина включена\n\n\n")
-                status_coffemachine = false;
-            }
-            "2" -> {
-                println("Кофемашина выключена\n\n\n")
-                status_coffemachine = true;
-            }
+        while(back) {
+            println(
+                "Статус кофемашины выключен" +
+                        "\nДля включения нажмите 1" +
+                        "\nДля выключения нажмите 2"
+            )
+            var d = readLine();
+            when (d) {
+                "1" -> {
+                    println("Кофемашина включена\n\n\n")
+                    status_coffemachine = false;
+                    back = false
+                }
+                "2" -> {
+                    println("Кофемашина выключена\n\n\n")
+                    status_coffemachine = true;
+                    back = false
+                }
+                else -> {
+                    println("Неверная комадна, нажмите от 1 до 2")
+                    back = true
+                }
+                }
+            back = true;
+            selection_menu();
         }
-        selection_menu();
     }
 
     private fun selection_menu() {
@@ -78,6 +87,8 @@ public class coffemachin() {
             var a = readLine();
             when (a) {
                 "1" -> {
+                    println("Затраты на капучино\nМолока:100\nКофе:10\nВоды:250\nНажмите любую клавишу для продолжения")
+                    readLine()
                     checking_for();
                     println("Капучино готов")
                     milk -= 100;
@@ -87,6 +98,8 @@ public class coffemachin() {
                     selection_menu();
                 }
                 "2" -> {
+                    println("Затраты на экспрессо\nМолока:0\nКофе:30\nВоды:250\nНажмите любую клавишу для продолжения")
+                    readLine()
                     checking_for();
                     println("Экспрессо готов")
                     coffe -= 30;
@@ -211,7 +224,7 @@ public class coffemachin() {
         selection_menu();
     }
 
-    fun checking_for() {
+    private fun checking_for() {
         if (water <= 0) {
             println("Недостаточно воды\nНажмите на любую клавишу чтобы налить воды")
             readLine()
