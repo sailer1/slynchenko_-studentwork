@@ -1,113 +1,81 @@
 fun main() {
-    var philips:coffemachin = coffemachin();
+    var philips = coffemachin();
     philips.start();
 }
 
 public class coffemachin() {
     private var status_coffemachine = true;
-    private var clear = 10;
-    private var back = true;
-    private var milk = 1000;
-    private var water = 3000;
-    private var coffe = 1000;
+    private var clear = 10; private var milk = 1000; private var water = 3000; private var coffe = 1000;
 
     fun start() {
-        println(
-            "Добро Пожаловать в программу Кофемашина\n_______________________________" +
-                    "\nДля продолжения нажмите любую клавишу"
-        )
+        println("Добро Пожаловать в программу Кофемашина\n_________\nДля продолжения нажмите enter")
         readLine();
-        while(back) {
-            println(
-                "Статус кофемашины выключен" +
-                        "\nДля включения нажмите 1" +
-                        "\nДля выключения нажмите 2"
-            )
-            var d = readLine();
-            when (d) {
+        println("Статус кофемашины выключен\nДля включения нажмите 1\nДля выключения нажмите 2")
+        var pressing = readLine();
+        while (pressing != "1" || pressing != "2") {      // цикл пока не будет 1 или 2
+            when (pressing) {
                 "1" -> {
-                    println("Кофемашина включена\n\n\n")
-                    status_coffemachine = false;
-                    back = false
+                    println("Кофемашина включена\n")
+                    status_coffemachine = true;
+                    selection_menu();
                 }
                 "2" -> {
-                    println("Кофемашина выключена\n\n\n")
-                    status_coffemachine = true;
-                    back = false
+                    println("Кофемашина выключена\n")
+                    status_coffemachine = false;
+                    return
                 }
                 else -> {
-                    println("Неверная комадна, нажмите от 1 до 2")
-                    back = true
+                        println("Неверная комадна, нажмите от 1 до 2")
+                        pressing = readLine()
+                    }
                 }
-                }
-            back = true;
-            selection_menu();
-        }
+            }
     }
 
     private fun selection_menu() {
-
-        if (status_coffemachine == false) {
-            while (back) {
-                println(
-                    "Выберите дальнейшие действия:" +
-                            "\n1. Приготовить кофе" +
-                            "\n2. Посмотреть количество индигриентов кофемашины" +
-                            "\n3. Проверить сколько кружек кофе до чистки" +
-                            "\n4. Выйти из приложения"
-                )
-                var status_coffe = readLine();
-
-                when (status_coffe) {
-                    "1" -> {
-                        cook_coffe()
-                    };
-                    "2" -> {
-                        kol_indi()
-                    };
-                    "3" -> {
-                        clear()
-                    };
-                    "4" -> {back = false
-                        exit();
-                    }
-                    else -> {
-                        println("Неверная команда, попробуйте снова\n Нажмите от 1 до 4 в зависимости что хотите")
-                        back = true;
-                    }
+                println("Выберите дальнейшие действия:")
+                println("\n1. Приготовить кофе" +
+                        "\n2. Посмотреть количество индигриентов кофемашины" +
+                        "\n3. Проверить сколько кружек кофе до чистки" +
+                        "\n4. Выйти из приложения")
+        var pressing = readLine();
+            while (pressing != "1"||pressing != "2"||pressing != "3"||pressing != "4") {
+    when (pressing) {
+        "1" -> cook_coffe()
+        "2" -> quantity_of_ingredients()
+        "3" -> clear()
+        "4" -> exit();
+        else -> {
+            println("Неверная команда, попробуйте снова\n Нажмите от 1 до 4 в зависимости что хотите")
+            pressing = readLine();
                 }
             }
         }
     }
 
-
     private fun cook_coffe() {
         println("Выберите кофе\n1. Капучино\n2. Экспрессо\n3. Сделать свой кофе\n4. Назад в меню")
-        if (clear > 0) {
-            var a = readLine();
-            when (a) {
+        if (clear >= 0) {
+            val pressing = readLine();
+            when (pressing) {
                 "1" -> {
-                    println("Затраты на капучино\nМолока:100\nКофе:10\nВоды:250\nНажмите любую клавишу для продолжения")
+                    println("Затраты на капучино\nМолока:100\nКофе:10\nВоды:250\nНажмите enter для продолжения")
                     readLine()
-                    checking_for();
+                    checking_for(); //Проверка на количество индигриентов
+                    milk -= 100;coffe -= 10;water -= 250;clear--;
                     println("Капучино готов")
-                    milk -= 100;
-                    coffe -= 10;
-                    water -= 250;
-                    clear--
                     selection_menu();
                 }
                 "2" -> {
-                    println("Затраты на экспрессо\nМолока:0\nКофе:30\nВоды:250\nНажмите любую клавишу для продолжения")
+                    println("Затраты на экспрессо\nМолока:0\nКофе:30\nВоды:250\nНажмите enter для продолжения")
                     readLine()
                     checking_for();
+                    coffe -= 30;water -= 250;clear--
                     println("Экспрессо готов")
-                    coffe -= 30;
-                    water -= 250;
                     selection_menu();
-                    clear--
                 }
                 "3" -> my_own_coffee()
+                "4" -> selection_menu()
             }
         } else {
             println("Производиться чистка. Ожидайте\n_______________________________")
@@ -117,7 +85,7 @@ public class coffemachin() {
     }
 
 
-    private fun kol_indi() {
+    private fun quantity_of_ingredients() {
         println(
             "КОЛИЧЕСТВО ИНДИГРИЕНТОВ МАШИНЫ:" +
                     "\nКофе: $coffe" +
@@ -130,7 +98,8 @@ public class coffemachin() {
     }
 
     private fun clear() {
-        println("До чистки осталось <$clear> кружек кофе")
+        println("До чистки осталось <$clear> кружек кофе\n_______________________")
+        readLine()
         selection_menu();
     }
 
@@ -140,85 +109,37 @@ public class coffemachin() {
 
     private fun my_own_coffee() {
         println("Выберите количество индигриентов\n\t Кофе:\n1. 10 гр\n2. 30 гр\n3. 50 гр")
-
-        while (back) {
-            var coffee_selection = readLine()
-            when (coffee_selection) {
-                "1" -> {
-                    checking_for();
-                    coffe -= 10
-                    back = false
+        if (clear >= 0) {
+                var pressing = readLine()
+                when (pressing) {
+                    "1" -> {checking_for(); coffe -= 10}
+                    "2" -> { checking_for();coffe -= 30}
+                    "3" -> {checking_for();coffe -= 50 }
+                    else -> {
+                        println("Нажмите от 1 до 3")
+                    }
                 }
-                "2" -> {
-                    checking_for();
-                    coffe -= 30
-                    back = false
+            println("Молоко:\n1. 50 гр\n2. 100 гр\n3. 150 гр")
+                val pressing2 = readLine()
+                when (pressing2) {
+                    "1" -> { checking_for();milk -= 50 }
+                    "2" -> { checking_for();milk -= 100 }
+                    "3" -> { checking_for();milk -= 150 }
+                    else -> { println("Нажмите от 1 до 3") }
                 }
-                "3" -> {
-                    checking_for();
-                    coffe -= 50
-                    back = false
+            println("Размер стакана:\n1. воды 150 гр\n2. воды 200 гр\n3. воды 250 гр")
+                val pressing3 = readLine()
+                when (pressing3) {
+                    "1" -> { checking_for();water -= 150 }
+                    "2" -> { checking_for();water -= 200 }
+                    "3" -> { checking_for();water -= 250 }
+                    else -> { println("Нажмите от 1 до 3") }
                 }
-                else -> {
-                    println("Нажмите от 1 до 3")
-                    back = true;
-                }
-            }
+        }else { println("Производиться чистка. Ожидайте\n_______________________________")
+            clear = 10;
+            selection_menu();
         }
-        back = true
-        println("Молоко:\n1. 50 гр\n2. 100 гр\n3. 150 гр")
-        while (back) {
-            var milk_selection = readLine()
-            when (milk_selection) {
-                "1" -> {
-                    checking_for();
-                    milk -= 50
-                    back = false
-                }
-                "2" -> {
-                    checking_for();
-                    milk -= 100
-                    back = false
-                }
-                "3" -> {
-                    checking_for();
-                    milk -= 150
-                    back = false
-                }
-                else -> {
-                    println("Нажмите от 1 до 3")
-                    back = true;
-                }
-            }
-        }
-        back = true
-        println("Размер стакана:\n1. воды 150 гр\n2. воды 200 гр\n3. воды 250 гр")
-        while (back) {
-            var water_selection = readLine()
-            when (water_selection) {
-                "1" -> {
-                    checking_for();
-                    water -= 150
-                    back = false
-                }
-                "2" -> {
-                    checking_for();
-                    water -= 200
-                    back = false
-                }
-                "3" -> {
-                    checking_for();
-                    water -= 250
-                    back = false
-                }
-                else -> {
-                    println("Нажмите от 1 до 3")
-                    back = true;
-                }
-            }
-        }
-        back = true
-        println("Ваш кофе готов\n Нажмите любую клавишу для продолжения")
+        println("Ваш кофе готов\n Нажмите enter для продолжения")
         clear--;
         readLine();
         selection_menu();
@@ -228,20 +149,19 @@ public class coffemachin() {
         if (water <= 0) {
             println("Недостаточно воды\nНажмите на любую клавишу чтобы налить воды")
             readLine()
-            water = 3000;
+            println("Сколько воды налить? от 1 до 3000")
+
             println("Количество воды:  $water мл")
             readLine()
             selection_menu();
-        }
-        if (milk <= 0) {
+        } else if (milk <= 0) {
             println("Недостаточно молока\nНажмите на любую клавишу чтобы налить молока")
             readLine()
             milk = 1000;
             println("Количество молока:  $milk мл")
             readLine()
             selection_menu();
-        }
-        if (coffe <= 0) {
+        }else if (coffe <= 0) {
             println("Недостаточно кофе\nНажмите на любую клавишу чтобы досыпать кофе")
             readLine()
             coffe = 1000;
